@@ -387,32 +387,32 @@ function renderTvView(menuData, today) {
     ui.tvViewContainer.innerHTML = '';
     const dayMenu = menuData[today] || {};
 
-    // 1. Create a full-screen container that completely takes over the display
+    // 1. Create a full-screen container
     const container = document.createElement('div');
-    container.className = 'fixed inset-0 bg-[#fbf9f6] flex flex-col z-50'; 
+    container.className = 'fixed inset-0 bg-[#fbf9f6] flex flex-col z-50 overflow-hidden'; 
 
     // 2. The Jumbo Red Header
     let html = `
         <header class="bg-[#c41230] text-white shadow-xl flex-shrink-0 z-10">
-            <div class="px-12 py-8 flex justify-between items-center">
+            <div class="px-8 py-6 flex justify-between items-center">
                 <div class="flex items-center">
-                    <img src="images/bcs_logo_white_small.webp" alt="Brentwood College Logo" class="h-24 mr-8" onerror="this.onerror=null; this.src='https://www.brentwood.ca/uploaded/themes/default_17/img/logo.svg'">
+                    <img src="images/bcs_logo_white_small.webp" alt="Brentwood College Logo" class="h-16 mr-6" onerror="this.onerror=null; this.src='https://www.brentwood.ca/uploaded/themes/default_17/img/logo.svg'">
                     <div>
-                        <h1 class="text-5xl font-bold tracking-wide">Brentwood College School</h1>
-                        <p class="text-3xl font-light mt-2 opacity-90">Food Menu</p>
+                        <h1 class="text-4xl font-bold tracking-wide">Brentwood College School</h1>
+                        <p class="text-2xl font-light mt-1 opacity-90">Food Menu</p>
                     </div>
                 </div>
-                <div class="bg-white/20 border border-white/30 px-8 py-4 rounded-2xl shadow-inner">
-                    <h2 class="text-5xl font-bold tracking-wide">${today}</h2>
+                <div class="bg-white/20 border border-white/30 px-6 py-3 rounded-2xl shadow-inner">
+                    <h2 class="text-3xl font-bold tracking-wide">${today}</h2>
                 </div>
             </div>
         </header>
         
-        <div class="flex-grow p-12 flex flex-col justify-center bg-cover bg-center" style="background-image: url('images/FoodBG.webp');">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 h-[80vh]">
+        <div class="flex-grow p-8 flex flex-col bg-cover bg-center min-h-0" style="background-image: url('images/FoodBG.webp');">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-full">
     `;
 
-    // 4. The Meal Cards (Matched perfectly to Daily View styling)
+    // 4. The Meal Cards
     const mealCardDetails = {
         Breakfast: { bg: 'bg-gradient-to-r from-amber-500 to-yellow-500', icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />' },
         Lunch: { bg: 'bg-gradient-to-r from-sky-500 to-cyan-500', icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />' },
@@ -426,15 +426,15 @@ function renderTvView(menuData, today) {
         const text = dayMenu[meal] || 'No service today.';
         
         html += `
-            <div class="bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col border border-gray-100 transform transition">
-                <div class="${details.bg} text-white px-10 py-8 flex justify-between items-center shadow-md z-10">
-                    <h2 class="text-6xl font-extrabold tracking-wide drop-shadow-sm">${meal}</h2>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 opacity-90 drop-shadow-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <div class="bg-white rounded-[2rem] shadow-2xl overflow-hidden flex flex-col border border-gray-100 h-full">
+                <div class="${details.bg} text-white px-8 py-6 flex justify-between items-center shadow-md flex-shrink-0 z-10">
+                    <h2 class="text-5xl font-extrabold tracking-wide drop-shadow-sm">${meal}</h2>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 opacity-90 drop-shadow-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         ${details.icon}
                     </svg>
                 </div>
-                <div class="p-12 flex-grow flex items-center justify-center bg-white/95 backdrop-blur-sm">
-                    <p class="text-6xl text-gray-800 leading-[1.4] whitespace-pre-wrap text-center font-medium">${text}</p>
+                <div class="p-8 flex-grow flex items-center justify-center bg-white/95 backdrop-blur-sm overflow-hidden">
+                    <p class="text-[2.5rem] text-gray-800 leading-snug whitespace-pre-wrap text-center font-medium">${text}</p>
                 </div>
             </div>
         `;
