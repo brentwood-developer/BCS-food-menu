@@ -8,6 +8,11 @@ const ui = {
     weeklyViewContainer: document.getElementById('weekly-view-container'),
     modalContainer: document.getElementById('modal-container'),
     headerButtons: document.getElementById('header-buttons'),
+
+    tvViewContainer: document.getElementById('tv-view-container'),
+    headerElement: document.querySelector('header'),
+    footerElement: document.querySelector('footer'),
+    mainElement: document.querySelector('main')
    // foodFactContainer: document.getElementById('food-fact-container')
 };
 
@@ -24,6 +29,21 @@ export function renderPage(state) {
     ui.weeklyViewContainer.classList.add('hidden');
 
     const daySelectorWrapper = document.getElementById('day-selector-wrapper');
+
+    // --- ADD THIS TV OVERRIDE BLOCK ---
+    if (state.isTvView) {
+        ui.headerElement.classList.add('hidden');
+        ui.footerElement.classList.add('hidden');
+        daySelectorWrapper.classList.add('hidden');
+        
+        ui.mainElement.classList.replace('py-8', 'py-0'); 
+        ui.mainElement.classList.add('h-screen', 'flex', 'items-center', 'justify-center', 'bg-gray-100');
+        
+        ui.tvViewContainer.classList.remove('hidden');
+        renderTvView(state.currentMenuData, state.today);
+        return; // Stop rendering the normal page
+    }
+    // ----------------------------------
 
     if (state.isWeeklyView) {
         daySelectorWrapper.classList.add('hidden');
@@ -363,8 +383,44 @@ function showConfirmationModal(config) {
     confModal.querySelector('.cancel-btn').addEventListener('click', () => hideModal(confModal));
 }
 
+function renderTvView(menuData, today) {
+    ui.tvViewContainer.innerHTML = '';
+    const dayMenu = menuData[today] || {};
+
+    const container = document.createElement('div');
+    container.className = 'w-full max-w-[95vw] mx-auto bg-white p-12 rounded-[2rem] shadow-2xl';
+
+    let html = `
+        <div class="flex items-center justify-center mb-12">
+            <h1 class="text-7xl font-bold text-[#c41230]">Today's Menu &bull; ${today}</h1>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+    `;
+
+    const meals = [
+        { name: 'Breakfast', color: 'text-amber-600', border: 'border-amber-500' },
+        { name: 'Lunch', color: 'text-sky-600', border: 'border-sky-500' },
+        { name: 'Dinner', color: 'text-indigo-700', border: 'border-indigo-600' }
+    ];
+
+    meals.forEach(meal => {
+        const text = dayMenu[meal.name] || 'No service today.';
+        html += `
+            <div class="flex flex-col border-t-[16px] ${meal.border} bg-gray-50 rounded-b-3xl shadow-lg p-10 h-full min-h-[50vh]">
+                <h2 class="text-6xl font-extrabold ${meal.color} mb-8 pb-4 border-b-4 border-gray-200">${meal.name}</h2>
+                <p class="text-5xl text-gray-800 leading-tight whitespace-pre-wrap flex-grow">${text}</p>
+            </div>
+        `;
+    });
+
+    html += `</div>`;
+    container.innerHTML = html;
+    ui.tvViewContainer.appendChild(container);
+}
+
 export function getDefaultMenu() {
     const menu = {};
+
     daysOfWeek.forEach(day => {
         menu[day] = { Breakfast: "", Lunch: "", Dinner: "" };
     });

@@ -6,6 +6,7 @@ const state = {
     currentMenuData: {},
     currentUser: null,
     isWeeklyView: false,
+    isTvView: false,
     editorHasUnsavedChanges: false,
     daysOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     mealTypes: ["Breakfast", "Lunch", "Dinner"],
@@ -76,6 +77,9 @@ const editorCallbacks = {
 
 // --- INITIALIZATION ---
 function initialize() {
+    const urlParams = new URLSearchParams(window.location.search);
+    state.isTvView = urlParams.get('tv') === 'true';
+    
     document.getElementById('footer-year').textContent = new Date().getFullYear().toString();
     
     // Set up listeners that update the state and re-render
