@@ -408,7 +408,7 @@ function renderTvView(menuData, today) {
             </div>
         </header>
         
-        <div class="flex-grow p-8 flex flex-col justify-center bg-cover bg-center min-h-0" style="background-image: url('images/FoodBG.webp');">
+        <div class="flex-grow p-8 flex flex-col justify-center bg-cover bg-center min-h-0" style="background-image: url('images/large-patiohdr.jpg.webp');">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
     `;
 
@@ -426,15 +426,15 @@ function renderTvView(menuData, today) {
         const text = dayMenu[meal] || 'No service today.';
         
         html += `
-            <div class="bg-white rounded-[2rem] shadow-2xl overflow-hidden flex flex-col border border-gray-100">
+            <div class="bg-white/10 backdrop-blur-md rounded-[2rem] shadow-2xl overflow-hidden flex flex-col border border-white/30">
                 <div class="${details.bg} text-white px-8 py-6 flex justify-between items-center shadow-md flex-shrink-0 z-10">
                     <h2 class="text-5xl font-extrabold tracking-wide drop-shadow-sm">${meal}</h2>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 opacity-90 drop-shadow-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         ${details.icon}
                     </svg>
                 </div>
-                <div class="px-8 py-12 flex-grow bg-white/95 backdrop-blur-sm overflow-hidden">
-                    <p class="text-[2.5rem] text-gray-800 leading-snug whitespace-pre-wrap text-center font-medium">${text}</p>
+                <div class="px-8 py-12 flex-grow bg-transparent overflow-hidden">
+                    <p class="text-[2.5rem] text-gray-900 leading-snug whitespace-pre-wrap text-center font-bold drop-shadow-md">${text}</p>
                 </div>
             </div>
         `;
